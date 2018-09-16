@@ -5,8 +5,10 @@ SDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WDIR=`pwd`
 
 # Get the data
-wget http://www.phontron.com/download/conala-corpus-v1.1.zip
-unzip conala-corpus-v1.1.zip
+if [ !-f conala-corpus-v1.1.zip ]; do
+  wget http://www.phontron.com/download/conala-corpus-v1.1.zip
+  unzip conala-corpus-v1.1.zip
+done
 echo "Data unzipped"
 # Extract data 
 cd $WDIR/conala-corpus
