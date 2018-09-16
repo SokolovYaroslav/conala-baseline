@@ -7,15 +7,18 @@ WDIR=`pwd`
 # Get the data
 wget http://www.phontron.com/download/conala-corpus-v1.1.zip
 unzip conala-corpus-v1.1.zip
-
+echo "Data unzipped"
 # Extract data 
 cd $WDIR/conala-corpus
 
 python $SDIR/preproc/extract_raw_data.py
-
+echo "Extracted raw data"
 python $SDIR/preproc/json_to_seq2seq.py conala-train.json.seq2seq conala-train.intent conala-train.snippet
+echo "Preprocessed train data"
 python $SDIR/preproc/json_to_seq2seq.py conala-test.json.seq2seq conala-test.intent conala-test.snippet
+echo "Preprocessed test data"
 python $SDIR/preproc/json_to_seq2seq.py conala-mined.jsonl.seq2seq conala-mined.intent conala-mined.snippet
+echo "Preprocessed mined data"
 
 # Split off a 400-line dev set from the training set
 # Also, concatenate the first 100000 lines of mined data
@@ -24,6 +27,7 @@ for f in intent snippet; do
   tail -n +401 < conala-train.$f > conala-trainnodev.$f
   cat conala-trainnodev.$f <(head -n 100000 conala-mined.$f) > conala-trainnodev+mined.$f
 done
+echo "Splitted of 400-line from training set. Concatenated mined data"
 
 cd $WDIR
 
