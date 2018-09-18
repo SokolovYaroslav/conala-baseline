@@ -40,7 +40,7 @@ if __name__ == '__main__':
             if rewritten_intent:
                 try:
                     canonical_intent, slot_map = canonicalize_intent(rewritten_intent)
-                    snippet = snippet
+                    #snippet = snippet
                     canonical_snippet = canonicalize_code(snippet, slot_map)
                     intent_tokens = nltk.word_tokenize(canonical_intent)
                     decanonical_snippet = decanonicalize_code(canonical_snippet, slot_map)
@@ -57,11 +57,11 @@ if __name__ == '__main__':
                         print('decoded_reconstr_code: %s' % decoded_reconstr_code)
 
                 except:
-                    print('*' * 20, file=sys.stderr)
+                    #print('*' * 20, file=sys.stderr)
                     print(i, file=sys.stderr)
-                    print(intent, file=sys.stderr)
-                    print(snippet, file=sys.stderr)
-                    traceback.print_exc()
+                    #print(intent, file=sys.stderr)
+                    #print(snippet, file=sys.stderr)
+                    #traceback.print_exc()
 
                     failed = True
                 finally:

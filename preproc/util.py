@@ -47,7 +47,7 @@ def encode_tokenized_code(code_tokens):
 
 def get_encoded_code_tokens(code):
     code = code.strip()
-    print(code)
+    #print(code)
     token_stream = generate_tokens(StringIO(code).readline)
     tokens = []
     indent_level = 0
