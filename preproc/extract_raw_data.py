@@ -8,6 +8,7 @@ import json
 import sys
 import nltk
 import traceback
+from tqdm import tqdm
 
 from canonicalize import *
 from util import get_encoded_code_tokens, detokenize_code, encode_tokenized_code, encoded_code_tokens_to_code, tokenize, compare_ast
@@ -24,7 +25,8 @@ if __name__ == '__main__':
                 for line in f:
                     dataset.append(json.loads(line.strip()))
 
-        for i, example in enumerate(dataset):
+        fail_count = 0
+        for i, example in tqdm(enumerate(dataset)):
             intent = example['intent']
             if file_type == 'annotated':
               rewritten_intent = example['rewritten_intent']
@@ -58,11 +60,12 @@ if __name__ == '__main__':
 
                 except:
                     #print('*' * 20, file=sys.stderr)
-                    print(i, file=sys.stderr)
+                    #print(i, file=sys.stderr)
                     #print(intent, file=sys.stderr)
                     #print(snippet, file=sys.stderr)
                     #traceback.print_exc()
 
+                    fail_count += 1
                     failed = True
                 finally:
                     example['slot_map'] = slot_map
@@ -78,4 +81,5 @@ if __name__ == '__main__':
             example['intent_tokens'] = intent_tokens
             example['snippet_tokens'] = encoded_reconstr_code
 
+        print('{} examples was failed to extract from {}'.format(fail_count, file_path))
         json.dump(dataset, open(file_path + '.seq2seq', 'w'), indent=2)
